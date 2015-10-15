@@ -40,9 +40,13 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
         Item value = (Item) container[pos];
 
-        container = ArrayResizer.pickOneUpAndMerge(container, pos);
-
+        container[pos] = container[numberOfElements - 1];
+        container[numberOfElements - 1] = null;
         numberOfElements--;
+
+        if (4 * numberOfElements <= container.length) {
+            container = ArrayResizer.chopArray(container);
+        }
 
         return value;
     }
@@ -86,10 +90,10 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private static class ArrayResizer {
 
-        public static Object[] pickOneUpAndMerge(Object[] container, int pos) {
-            Object[] newContainer = new Object[container.length - 1];
-            System.arraycopy(container, 0, newContainer, 0, pos);
-            System.arraycopy(container, pos + 1, newContainer, pos, container.length - pos - 1);
+        public static Object[] chopArray(Object[] container) {
+
+            Object[] newContainer = new Object[container.length / 2];
+            System.arraycopy(container, 0, newContainer, 0, newContainer.length);
 
             return newContainer;
         }

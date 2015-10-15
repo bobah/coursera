@@ -71,9 +71,7 @@ public class RandomizedQueueTest {
         queue.dequeue();
         queue.size();
 
-
         assertTrue(queue.isEmpty());
-
     }
 
     @Test(expected = NullPointerException.class)
@@ -106,5 +104,22 @@ public class RandomizedQueueTest {
         for (String s : queue) {
             System.out.println(s);
         }
+    }
+
+    @Test
+    public void testArraySizing() throws Exception {
+        queue.enqueue("1");
+        queue.enqueue("2");
+        queue.enqueue("3");
+        queue.enqueue("4");
+        queue.enqueue("5");
+
+        System.out.println("==============");
+
+        System.out.print(queue.dequeue());
+        System.out.print(queue.dequeue());
+        System.out.print(queue.dequeue());
+        System.out.print(queue.dequeue());
+        System.out.print(queue.dequeue());
     }
 }
