@@ -6,6 +6,7 @@ import java.util.NoSuchElementException;
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
     private Object[] container = new Object[]{};
+    private int numberOfElements = 0;
 
     public RandomizedQueue() {
     }
@@ -15,12 +16,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public boolean isEmpty() {
-        return container == null || container.length == 0;
+        return numberOfElements == 0;
     }
 
     public int size() {
-        if (isEmpty()) return 0;
-        return container.length;
+        return numberOfElements;
     }
 
     public void enqueue(Item item) {
@@ -28,23 +28,26 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (item == null)
             throw new NullPointerException();
 
-
         if (isEmpty()) {
             container = new Object[]{item};
         } else {
             container = ArrayResizer.addElement(container, item);
         }
+
+        numberOfElements++;
     }
 
     public Item dequeue() {
         if (isEmpty())
             throw new NoSuchElementException();
 
-        int pos = StdRandom.uniform(container.length);
+        int pos = StdRandom.uniform(numberOfElements);
 
         Item value = (Item) container[pos];
 
         container = ArrayResizer.pickOneUpAndMerge(container, pos);
+
+        numberOfElements--;
 
         return value;
     }
@@ -53,7 +56,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (isEmpty())
             throw new NoSuchElementException();
 
-        int pos = StdRandom.uniform(container.length);
+        int pos = StdRandom.uniform(numberOfElements);
 
         return (Item) container[pos];
     }
@@ -88,6 +91,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
 
         public static Object[] addElement(Object[] container, Object element) {
+
             Object[] newContainer = new Object[container.length + 1];
             System.arraycopy(container, 0, newContainer, 0, container.length);
             newContainer[newContainer.length - 1] = element;
