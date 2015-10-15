@@ -77,12 +77,13 @@ public class Deque<Item> implements Iterable<Item> {
             first = null;
         }
 
+        size--;
+
         return lastItem;
     }
 
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
-
             private Node currentNode = first;
 
             @Override
@@ -114,9 +115,9 @@ public class Deque<Item> implements Iterable<Item> {
     }
 
     private class Node {
-        Item item;
-        Node prevNode;
-        Node nextNode;
+        private Item item;
+        private Node prevNode;
+        private Node nextNode;
 
         public Node(Item item, Node prevNode, Node nextNode) {
             this.item = item;

@@ -111,6 +111,12 @@ public class DequeTest {
     @Test
     public void randomizedTest() throws Exception {
 
+        deque.addLast("0");
+        deque.removeLast();
+        deque.isEmpty();
+        deque.isEmpty();
+
+        assertEquals(deque.size(), 0);
 
     }
 

@@ -76,6 +76,19 @@ public class RandomizedQueueTest {
 
     }
 
+    @Test(expected = NullPointerException.class)
+    public void testNPE() throws Exception {
+
+        queue.enqueue(null);
+
+    }
+
+    @Test
+    public void testIteratorOnEmptyQueue() throws Exception {
+        RandomizedQueue<Integer> q = new RandomizedQueue<>();
+        q.iterator();
+    }
+
     @Test
     public void testIterator() throws Exception {
         queue.enqueue("1");
