@@ -11,8 +11,9 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public RandomizedQueue() {
     }
 
-    private RandomizedQueue(Object[] container) {
+    private RandomizedQueue(Object[] container, int numberOfElements) {
         this.container = container;
+        this.numberOfElements = numberOfElements;
     }
 
     public boolean isEmpty() {
@@ -28,13 +29,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         if (item == null)
             throw new NullPointerException();
 
-        if (isEmpty()) {
-            container = new Object[]{item};
-        } else {
-            container = ArrayResizer.addElement(container, item);
-        }
-
-        numberOfElements++;
+        addElement(item);
     }
 
     public Item dequeue() {
@@ -65,11 +60,11 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     public Iterator<Item> iterator() {
         return new Iterator<Item>() {
 
-            private RandomizedQueue<Item> queue = new RandomizedQueue<>(ArrayResizer.copyArray(container));
+            private RandomizedQueue<Item> queue = new RandomizedQueue<>(ArrayResizer.copyArray(container), numberOfElements);
 
             @Override
             public boolean hasNext() {
-                return queue.size() > 0;
+                return !queue.isEmpty();
             }
 
             @Override
@@ -78,6 +73,15 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             }
 
         };
+    }
+
+    private void addElement(Object element) {
+        if (container.length == numberOfElements) {
+            container = ArrayResizer.resize(container);
+        }
+
+        container[numberOfElements] = element;
+        numberOfElements++;
     }
 
     private static class ArrayResizer {
@@ -90,11 +94,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
             return newContainer;
         }
 
-        public static Object[] addElement(Object[] container, Object element) {
+        public static Object[] resize(Object[] container) {
 
-            Object[] newContainer = new Object[container.length + 1];
+            if (container.length == 0) {
+                return new Object[1];
+            }
+
+            Object[] newContainer = new Object[container.length * 2];
             System.arraycopy(container, 0, newContainer, 0, container.length);
-            newContainer[newContainer.length - 1] = element;
 
             return newContainer;
         }
